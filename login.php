@@ -57,7 +57,7 @@ if(isset($_POST["submit"])) {
           <form method="post" autocomplete="off" action="" class="form-signin">
             <table><tr>
               <div class="form-label-group">
-                <td>  <label for="uname"><b>Student ID</b></label> </td>
+                <td>  <label for="uname"><b>User ID</b></label> </td>
                 <td>  <input lass="form-control" type="text" placeholder="User ID" name="login_id" required>
                 </div></td>
               </tr><tr><td>

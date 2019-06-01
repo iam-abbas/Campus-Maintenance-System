@@ -16,13 +16,13 @@ if(isset($_GET['cid'])) {
   include('html.php');
   $id = $_SESSION['id'];
   sethead("View Complaint");
-
+  $asign = '';
   $adminhtml = '';
   $cid = $_GET['cid'];
   $sql_query2 = "SELECT * FROM `complaints` WHERE `id` = '{$cid}' LIMIT 1 ";
   $result2 = mysqli_query($con, $sql_query2);
   $row2 = mysqli_fetch_assoc($result2);
-  if(!isAdmin($id, $con)) {
+  if(!isAdmin($id, $con) && !isWork($id, $con)) {
     if($id != $row2['comp_by']) {
       header("Location: dashboard.php");
       die();
@@ -31,8 +31,17 @@ if(isset($_GET['cid'])) {
   $sql_query = "SELECT * FROM `users` WHERE `id` = '{$row2['comp_by']}'";
   $result = mysqli_query($con,$sql_query);
   $row = mysqli_fetch_assoc($result);
+  $asgn = "Not Assigned";
+  if($row2['assigned'] == 1) {
+    $sql_query5 = "SELECT * FROM `users` WHERE `id` = '{$row2['asgn_to']}'";
+    $result5 = mysqli_query($con,$sql_query5);
+    $row4 = mysqli_fetch_assoc($result5);
+
+    $asgn = $row4['name'];
+  }
 
   if(isAdmin($id, $con)) {
+    $asign = '<a href="assign.php?cid='.$cid.'"><button class="btn btn-primary">Assign The Work</button></a>';
     $adminhtml = "
     <tr>
       <th>Degree</th>
@@ -41,6 +50,10 @@ if(isset($_GET['cid'])) {
     <tr>
       <th>Course</th>
       <td>".$row['crs']."</td>
+    </tr>
+    <tr>
+      <th>Assigned To</th>
+      <td>".$asgn."</td>
     </tr>
     ";
   }
@@ -89,7 +102,9 @@ if(isset($_GET['cid'])) {
   <form method="post" name="done">
     <button  type="submit" name="submit" class="btn btn-default">Mark as done</button>
   </form>
-  <a href="dashboard.php"><buttonclass="btn btn-default">Go Back</button></a>
+  <?=$asign?>
+<br><br>
+  <a href="dashboard.php">Go Back</a>
 </center>
 <?php
 } else {

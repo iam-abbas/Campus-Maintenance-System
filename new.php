@@ -37,7 +37,7 @@ if($result) {
       <textarea rows="4" cols="50" name="complaint" class="form-control" required></textarea>
     </div>
     <div class="form-group col-md-4">
-      <label for="inputState">State</label>
+      <label for="inputState">Department</label>
       <select name="dept" id="inputState" class="form-control" required>
       <option value="">Choose One</option>
       <option value="HVAC">HVAC</option>
@@ -50,6 +50,9 @@ if($result) {
     </div>
     <button value="Register New Complaint" type="submit" name="submit" class="btn btn-default">Submit</button>
   </form>
+  <center>
+  <a href="dashboard.php">Go Back</a>
+  </center>
   ';
 }
 include('footer.php');
