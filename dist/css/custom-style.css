@@ -1,0 +1,16 @@
+
+.comment-widgets .comment-row {
+    margin: 0px;
+}
+
+.pending {
+    background: #ffd0d0;
+}
+
+.assigned {
+    background: #adffad;
+}
+
+.completed {
+    background: #fff;
+}
