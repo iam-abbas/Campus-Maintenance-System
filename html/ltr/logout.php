@@ -1,8 +1,8 @@
 <?php
+require_once 'config.php';
 
-session_start();
-session_unset();
-session_destroy();
+$_SESSION = array();
+session_regenerate_id(true);
 
 header("location:login.php");
 exit();

@@ -1,12 +1,9 @@
 <?php
-session_start();
-
-require_once "inc.php";
 require_once "config.php";
+require_once "inc.php";
 
 if (!isset($_SESSION['name'])) {
-  header("Location: login.php");
-  die();
+  redirect("login.php");
 }
 
 include("html.php");

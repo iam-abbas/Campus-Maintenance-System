@@ -1,4 +1,6 @@
 <?php
+@session_save_path("tmp");
+@session_start();
 
 $db_name = "comp_sys";
 $mysql_user = "root";

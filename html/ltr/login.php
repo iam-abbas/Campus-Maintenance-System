@@ -1,7 +1,10 @@
 <?php
-require_once "inc.php";
 require_once "config.php";
+require_once "inc.php";
 
+if (isset($_SESSION['name'])) {
+    redirect("dashboard.php");
+  }
 ?>
 <!DOCTYPE html>
 <html dir="ltr">
@@ -64,7 +67,6 @@ if(isset($_POST["submit"])) {
   {
     $row = mysqli_fetch_assoc($result);
     $name =$row["name"];
-    session_start();
     $_SESSION['name'] = $name;
     $_SESSION['id'] = $row['id'];
     if($row['admin'] == 1) {
