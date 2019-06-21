@@ -4,17 +4,7 @@ require_once 'inc.php';
 require_once 'config.php';
 
 include 'html.php';
-setHead("Admin Panel");
-
-if (!isset($_SESSION['name'])) {
-  header("Location: login.php");
-  die();
-}
-
-if(!isAdmin($_SESSION['id'], $con)){
-  header("Location: login.php");
-  die();
-  }
+setHead("Dashboard");
 
 //Tower Stats
 
@@ -62,16 +52,9 @@ $pending = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaints` WHERE 
 $assigned = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaints` WHERE `completed` = '0' AND `assigned` = '1' AND `accepted` = '0' AND `decline` = '0' "));
 $active = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaints` WHERE `completed` = '0' AND `assigned` = '1' AND `accepted` = '1' AND `decline` = '0' "));
 $completed = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaints` WHERE `completed` = '1' "));
-$deleted = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaints` WHERE `decline` = '1' OR `deleted` = '1' "));
+$deleted = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaints` WHERE `decline` = '1' OR `deleted` = '0' "));
 
-//bargraph
 
-$hvac = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaints` WHERE `dept` ='HVAC' "));
-$elec = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaints` WHERE `dept` ='ELECTRICAL' "));
-$plumb = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaints` WHERE `dept` ='PLUMBING' "));
-$carp = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaints` WHERE `dept` ='CARPENTRY AND CIVIL' "));
-$hskep = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaints` WHERE `dept` ='HOUSE KEEPING' "));
-$othr = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaints` WHERE `dept` = 'OTHER FACILITY RELATED' "));
 
 //top cards
 
@@ -226,42 +209,42 @@ $total_complaints = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaint
           <div class="col-lg-12">
             <div class="row">
               <div class="col-6">
-                <div class="bg-cyan p-10 text-white text-center">
+                <div class="bg-dark p-10 text-white text-center">
                   <i class="fas fa-building font-16"></i>
                   <h5 class="m-b-0 m-t-5"><?=$tower1?></h5>
                   <small class="font-light">Tower 1 Complaints</small>
                 </div>
               </div>
               <div class="col-6">
-                <div class="bg-danger p-10 text-white text-center">
+                <div class="bg-dark p-10 text-white text-center">
                   <i class="fas fa-building font-16"></i>
                   <h5 class="m-b-0 m-t-5"><?=$tower2?></h5>
                   <small class="font-light">Tower 2 Complaints</small>
                 </div>
               </div>
               <div class="col-6 m-t-15">
-                <div class="bg-success p-10 text-white text-center">
+                <div class="bg-dark p-10 text-white text-center">
                   <i class="fas fa-building font-16"></i>
                   <h5 class="m-b-0 m-t-5"><?=$tower3?></h5>
                   <small class="font-light">Tower 3 Complaints</small>
                 </div>
               </div>
               <div class="col-6 m-t-15">
-                <div class="bg-info p-10 text-white text-center">
+                <div class="bg-dark p-10 text-white text-center">
                   <i class="fas fa-building font-16"></i>
                   <h5 class="m-b-0 m-t-5"><?=$tower4?></h5>
                   <small class="font-light">Tower 4 Complaints</small>
                 </div>
               </div>
               <div class="col-6 m-t-15">
-                <div class="bg-warning p-10 text-white text-center">
+                <div class="bg-dark p-10 text-white text-center">
                   <i class="fas fa-building font-16"></i>
                   <h5 class="m-b-0 m-t-5"><?=$tower5?></h5>
                   <small class="font-light">Tower 5 Complaints</small>
                 </div>
               </div>
               <div class="col-6 m-t-15">
-                <div class="bg-cyan p-10 text-white text-center">
+                <div class="bg-dark p-10 text-white text-center">
                   <i class="fa fa-globe m-b-5 font-16"></i>
                   <h5 class="m-b-0 m-t-5"><?=$pending?></h5>
                   <small class="font-light">Total Complaints</small>
@@ -275,86 +258,6 @@ $total_complaints = mysqli_num_rows(mysqli_query($con, "SELECT * FROM `complaint
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-6">
-    <div class="card" style="padding-bottom: 50px;">
-      <div class="card-body">
-        <h4 class="card-title">Charts</h4>
-        
-        <ul class="chart-bar">
-          <li>
-            <span style="height:<?=($hvac/$total_complaints)*100?>%; background:#7460ee;" title="HVAC"><?=round(($hvac/$total_complaints)*100)?>%</span>
-          </li>
-          <li>
-            <span style="height:<?=($elec/$total_complaints)*100?>%; background: #da542e;" title="ELECTRICAL"><?=round(($elec/$total_complaints)*100)?>%</span>
-          </li>
-          <li>
-            <span style="height:<?=($plumb/$total_complaints)*100?>%; background: #ffb848;" title="PLUMBING"><?=round(($plumb/$total_complaints)*100)?>%</span>
-          </li>
-          <li>
-            <span style="height: <?=($carp/$total_complaints)*100?>%; background: #2255a4;" title="CIVIL"><?=round(($carp/$total_complaints)*100)?>%</span>
-          </li>
-          <li>
-            <span style="height:<?=($hskep/$total_complaints)*100?>%; background: #28b779" title="HOUSE KEEPING"><?=round(($hskep/$total_complaints)*100)?>%</span>
-          </li>
-          <li>
-            <span style="height:<?=($othr/$total_complaints)*100?>%; background: #488c13;" title="OTHER"><?=round(($othr/$total_complaints)*100)?>%</span>
-          </li>
-        </ul>    
-        
-      </div>
-    </div>
-  </div>
-  <div class="col-6 m-t-15">
-  <div class="accordion" id="accordionExample">
-                            <div class="card m-b-0">
-                                <div class="card-header" id="headingOne">
-                                  <h5 class="mb-0">
-                                    <a data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
-                                        <i class="m-r-5 fas fa-code" aria-hidden="true"></i>
-                                        <span>Developer Updates - 18 June 2019</span>
-                                    </a>
-                                  </h5>
-                                </div>
-                                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
-                                  <div class="card-body">
-                                    SRM AP Hostel Maintenance APP Deployed.
-                                </div>
-                                </div>
-                            </div>
-                            <div class="card m-b-0 border-top">
-                                <div class="card-header" id="headingTwo">
-                                  <h5 class="mb-0">
-                                    <a class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        <i class="m-r-5 fas fa-code" aria-hidden="true"></i>
-                                        <span>Developer Updates - 17 June 2019</span>
-                                    </a>
-                                  </h5>
-                                </div>
-                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample" style="">
-                                  <div class="card-body">
-                                  SRM AP Maintenance System deployed on SRM Amaravati Servers.
-                                </div>
-                                </div>
-                            </div>
-                            <div class="card m-b-0 border-top">
-                                <div class="card-header" id="headingThree">
-                                  <h5 class="mb-0">
-                                    <a class="" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                        <i class="m-r-5 fas fa-code" aria-hidden="true"></i>
-                                        <span>Developer Updates - 16 June 2019</span>
-                                    </a>
-                                  </h5>
-                                </div>
-                                <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionExample" style="">
-                                  <div class="card-body">
-                                  Basic version of SRM AP Hostel Maintenance System built. We initiated this project after we realised that managing complaints manually is a great burden. Students were never updated on their complaints. We this APP we hope to solve this problem.
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-</div>
-</div>
 
 <?php
 

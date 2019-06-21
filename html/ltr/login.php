@@ -17,8 +17,8 @@ if (isset($_SESSION['name'])) {
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
-    <title>Matrix Template - The Ultimate Multipurpose admin template</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="https://srmap.edu.in/file/2017/04/cropped-SRM-LogoR-1-32x32.png">
+    <title>SRM Maintenance</title>
     <!-- Custom CSS -->
     <link href="../../dist/css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -63,7 +63,7 @@ if(isset($_POST["submit"])) {
   $user_pass =  $_POST["login_pass"];
   $sql_query = "SELECT * FROM `users` WHERE `roll` = '{$user_id}' AND `password` = '{$user_pass}'";
   $result = mysqli_query($con,$sql_query);
-  if(mysqli_num_rows($result) > 0 )
+  if(mysqli_num_rows($result) >= 1 )
   {
     $row = mysqli_fetch_assoc($result);
     $name =$row["name"];
@@ -71,12 +71,16 @@ if(isset($_POST["submit"])) {
     $_SESSION['id'] = $row['id'];
     if($row['admin'] == 1) {
       $_SESSION['admin'] = True;
+      redirect("admin-dashboard.php");
     }
     redirect("dashboard.php");
   }
   else
   {
-    echo "Login Failed.......Try Again..";
+    echo '<div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">Login Failed!</h4>
+    <p>Please check your User ID and Password. If you forgot your password please send a Mail to hostelmaintenance@srmap.edu.in</p>
+  </div>';
   }
 }
 
@@ -102,8 +106,7 @@ if(isset($_POST["submit"])) {
                             <div class="col-12">
                                 <div class="form-group">
                                     <div class="p-t-20">
-                                        <button class="btn btn-info" id="to-recover" type="button"><i class="fa fa-lock m-r-5"></i> Lost password?</button>
-                                        <button class="btn btn-success float-right" name="submit" type="submit">Login</button>
+                                        <button class="btn btn-success float-right" style="width:100%" name="submit" type="submit">Login</button>
                                     </div>
                                 </div>
                             </div>
